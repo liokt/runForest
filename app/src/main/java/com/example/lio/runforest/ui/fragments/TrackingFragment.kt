@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.lio.runforest.R
 import com.example.lio.runforest.other.Constants
+import com.example.lio.runforest.services.Polylines
 import com.example.lio.runforest.services.TrackingService
 import com.example.lio.runforest.ui.viewmodels.MainViewModel
 import com.google.android.gms.maps.GoogleMap
@@ -18,6 +19,9 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
 
     private val viewModel: MainViewModel by viewModels()
 
+    private var isTracking = false
+    private var pathPoints = mutableListOf<Polylines>()
+
     private var map: GoogleMap? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,6 +32,14 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync {
             map = it
+        }
+    }
+
+    private fun addLatestPolyline(){
+        if(pathPoints.isNotEmpty() && pathPoints.last().size > 1){
+            val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
+            val lastLatLong = pathPoints.last().last()
+
         }
     }
 
