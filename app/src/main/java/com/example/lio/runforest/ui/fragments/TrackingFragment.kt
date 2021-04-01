@@ -13,6 +13,7 @@ import com.example.lio.runforest.other.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.example.lio.runforest.other.Constants.MAP_ZOOM
 import com.example.lio.runforest.other.Constants.POLYLINE_COLOR
 import com.example.lio.runforest.other.Constants.POLYLINE_WIDTH
+import com.example.lio.runforest.other.TrackingUtility
 import com.example.lio.runforest.services.Polyline
 import com.example.lio.runforest.services.TrackingService
 import com.example.lio.runforest.ui.viewmodels.MainViewModel
@@ -31,6 +32,8 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
     private var pathPoints = mutableListOf<Polyline>()
 
     private var map: GoogleMap? = null
+
+    private var currTimeInMillis = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,6 +69,12 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
             addLatestPolyline()
             moveCameraToUser()
         })
+
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
+            currTimeInMillis = it
+            val formattedTime = TrackingUtility.getFormattedStopWatchTime(currTimeInMillis, true)
+            tvTimer.text = formattedTime
+            })
     }
 
     private fun toggleRun() {
