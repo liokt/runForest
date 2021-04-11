@@ -17,5 +17,6 @@ class Converters {
         val outputStream = ByteArrayOutputStream()
         bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         return outputStream.toByteArray()
+
     }
 }
